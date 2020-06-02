@@ -1,0 +1,55 @@
+   <% provide(:title, "login") %>
+   <div class="container">
+        <div class="row">
+			<div class="col-md-5 mx-auto">
+			<div id="first">
+				<div class="myform form ">
+					 <div class="logo mb-3">
+						 <div class="col-md-12 text-center">
+							<h1>Login</h1>
+						 </div>
+                     <% flash.each do |message_type, message| %>
+                        <div class="alert alert-<%= message_type %>"><%= message %></div>
+                     <% end %>
+					</div>
+                    <%= form_for :session, url: login_path do |f| %>
+                           <div class="form-group">
+                              <%= f.label :email %>
+                              <%= f.text_field :email, placeholder: "Enter your email", class: "form-control", id: "email" %>
+                           </div>
+                           <div class="form-group">
+                            <%= f.label :password %>
+                            <%= link_to "(forgot password)", new_password_reset_path %>
+                            <%= f.password_field :password, placeholder: "Enter your password" ,class: "form-control",id: "password"%>
+                           </div>
+                            <div class="form-check">
+                              <%= f.label :remember_me, class: "form-check-input" do %>
+                                    <%= f.check_box :remember_me %>
+                              <% end %>
+                              <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                           </div>
+                           <div class="col-md-12 text-center ">
+                              <%= f.submit "Login", class: "btn btn-block mybtn btn-primary tx-tfm" %>
+                           </div>
+                           <div class="col-md-12 ">
+                              <div class="login-or">
+                                 <hr class="hr-or">
+                                 <span class="span-or">or</span>
+                              </div>
+                           </div>
+                           <div class="col-md-12 mb-3">
+                              <p class="text-center">
+                                 <a href="javascript:void();" class="google btn mybtn"><i class="fa fa-google-plus">
+                                 </i>Signup using Google
+                                 </a>
+                              </p>
+                           </div>
+                           <div class="form-group">
+                              <p class="text-center">Don't have account? <%= link_to "Signup", new_user_path%>.</p>
+                           </div>
+                     <% end %>
+                  </div>
+			   </div>
+		    </div>
+        </div>   
+    </div>     
