@@ -29,14 +29,14 @@ class << self
 end
     def create_reset_digest
         self.reset_token = User.new_token
-        update_attribute(:reset_digest, User.digest(reset_token))
-        update_attribute(:reset_sent_at, Time.zone.now)
+        update_columns(reset_digest: FILL_IN, reset_sent_at: FILL_IN)
     end
     def send_password_reset_email
         UserMailer.password_reset(self).deliver_now
     end
     def feed
-        Micropost.where("user_id = ?", id)
+        part_of_feed = "relationships.follower_id = :id or microposts.user_id = :id"
+        Micropost.joins(user: :followers).where(part_of_feed, { id: id })
     end
 
     # Follows a user.
@@ -55,20 +55,23 @@ end
         self.remember_token = User.new_token
         update_attribute(:remember_digest, User.digest(remember_token))
     end
-
-    def authenticated?(remember_token)
-        return false if remember_digest.nil?
-        BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    def authenticated?(attribute, token)
+        digest = self.send("#{attribute}_digest")
+        return false if digest.nil?
+        BCrypt::Password.new(digest).is_password?(token)
     end
 
     def forget
         update_attribute(:remember_digest, nil)
     end
     def activate
-        update_columns(activated: FILL_IN, activated_at: FILL_IN)
+        update_columns(activated: true, activated_at: Time.zone.now)
     end
     def send_activation_email
         UserMailer.account_activation(self).deliver_now
+    end
+    def password_reset_expired?
+        reset_sent_at < 2.hours.ago
     end
 private
     # Converts email to all lower-case.
