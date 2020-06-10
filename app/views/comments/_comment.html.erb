@@ -1,15 +1,19 @@
 <li id="comment-<%= comment.id%>">
-    <span class="user">
-        <%= link_to comment.user.name, comment.user %>
-    </span>
-    <span class="content">
-            <%= comment.content_coment%>
-    </span>
-    <span class="timestamp">
-            Posted <%= time_ago_in_words(comment.created_at) %> ago.
-        <% if current_user?(comment.user) %>
-            <%= link_to "delete", comment, method: :delete,
-            data: { confirm: "You sure?" } %>
-            <% end %>
+    <span id="dots"></span>
+    <span class="comment-all"name="seemore">
+        <span class="user">
+            <%= link_to comment.user.name, comment.user %>
+        </span>
+        <span class="content">
+                <%= comment.content_coment%>
+        </span>
+        <span class="timestamp">
+                Commented <%= time_ago_in_words(comment.created_at) %> ago.
+            <% if current_user?(comment.user) %>
+                <%= link_to "delete", comment, method: :delete,
+                data: { confirm: "You sure?" } %>
+                <% end %>
+        </span>
     </span>
 </li>
+<%= link_to  "Read more comment...", "#", id: "myBtn", onclick="myFunction()" %>

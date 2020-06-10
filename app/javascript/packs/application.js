@@ -16,3 +16,19 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+function myFunction(){
+    let dots = document.getElementById("dots");
+    let seemore = document.getElementsByName("seemore");
+    let myBtn =document.getElementById("myBtn");
+    if (dots.style.display==="none")
+    {
+        dots.style.display = "inline";
+        myBtn.innerHTML = "Read more comment..."; 
+        seemore.style.display = "none";
+    }
+    else{
+        dots.style.display = "inline";
+        myBtn.innerHTML = "Read less";
+        seemore.style.display = "block";
+    }
+}
